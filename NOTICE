@@ -1,0 +1,56 @@
+VoidLight CoDesign
+Copyright (c) 2026 VOIDLIGHT (손상현)
+
+This product is a fork of and is based on:
+
+  Open CoDesign
+  Copyright (c) OpenCoworkAI and contributors
+  Licensed under the MIT License
+  https://github.com/OpenCoworkAI/open-codesign
+
+The original Open CoDesign source code, all upstream copyrights, trademarks,
+and contributor attributions are preserved without modification under
+upstream/ as a git submodule.
+
+------------------------------------------------------------------------
+Third-party fonts
+------------------------------------------------------------------------
+
+Pretendard
+  Copyright (c) 길형진 (Hyung-Jin Gil)
+  Licensed under the SIL Open Font License (OFL) 1.1
+  https://github.com/orioncactus/pretendard
+
+Noto Sans KR / Noto Serif KR
+  Copyright (c) Google
+  Licensed under the SIL Open Font License (OFL) 1.1
+  https://fonts.google.com/noto
+
+------------------------------------------------------------------------
+External tools (not bundled, runtime dependencies)
+------------------------------------------------------------------------
+
+VibeProxy / CLIProxyAPI
+  Used at runtime via local OAuth proxy (port 8318).
+  Not redistributed by this project.
+  Users install separately. See modules/02-vibeproxy-bridge/docs/.
+
+------------------------------------------------------------------------
+Disclaimer (한국어 면책)
+------------------------------------------------------------------------
+
+본 프로젝트가 사용을 권장하는 VibeProxy 등의 도구는, AI 모델 제공자(Anthropic,
+OpenAI, Google 등)의 약관(ToS)을 위반할 수 있는 방식으로 OAuth 토큰을 사용
+합니다. 이 fork는 학습·교육·개인 용도로만 사용을 권장하며, 상업적 재배포·
+대규모 사용은 사용자 본인 책임 하에 진행해야 합니다.
+
+VoidLight CoDesign 자체는 어떠한 제공자의 OAuth 토큰도 직접 가로채지 않으며,
+사용자가 별도로 설치한 VibeProxy의 동작에 의존할 뿐입니다.
+
+The VibeProxy / CLIProxyAPI tooling that this project recommends may be in
+violation of the Terms of Service of upstream AI providers (Anthropic, OpenAI,
+Google, etc.). This fork is intended strictly for educational and personal
+use. Commercial redistribution or large-scale deployment is at the user's own
+risk. VoidLight CoDesign itself does not intercept any provider's OAuth token;
+it merely interoperates with VibeProxy as a local proxy that users install
+separately.

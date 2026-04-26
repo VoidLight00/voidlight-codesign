@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+dist/
+build/
+*.log
+.env*
+upstream/
+!upstream/.gitkeep
+.cache/
+coverage/

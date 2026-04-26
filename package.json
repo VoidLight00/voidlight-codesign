@@ -1,0 +1,22 @@
+{
+  "name": "voidlight-codesign",
+  "version": "0.0.0",
+  "private": true,
+  "description": "VoidLight CoDesign — Korean fork of OpenCoworkAI/open-codesign with VibeProxy integration",
+  "license": "MIT",
+  "author": "VOIDLIGHT <icthyeon00@gmail.com>",
+  "homepage": "https://github.com/voidlight/voidlight-codesign",
+  "scripts": {
+    "bootstrap": "git submodule update --init --remote upstream && pnpm install -r",
+    "sync:upstream": "bash scripts/sync-upstream.sh",
+    "apply:modules": "bash scripts/apply-modules.sh",
+    "build": "bash scripts/build.sh",
+    "verify:parity": "bash scripts/verify-parity.sh",
+    "release": "bash scripts/release.sh"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

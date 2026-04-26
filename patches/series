@@ -1,0 +1,10 @@
+# patches/series — 적용 순서 정의 (quilt convention)
+#
+# 각 라인은 patches/ 하위의 patch 파일명. 빈 줄과 # 주석은 무시.
+# 헤더 메타: 각 patch 파일 상단에 다음을 포함하길 권장:
+#
+#   Subject: <한 줄 설명>
+#   Tag:     PR_safe | Fork_only
+#   Depends-On: <선행 patch 파일명, 없으면 생략>
+#
+# 현재는 비어있음. M0 정찰 후 첫 patch 추가 예정.
