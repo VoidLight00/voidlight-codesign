@@ -33,7 +33,7 @@ External tools (not bundled, runtime dependencies)
 VibeProxy / CLIProxyAPI
   Used at runtime via local OAuth proxy (port 8318).
   Not redistributed by this project.
-  Users install separately. See modules/02-vibeproxy-bridge/docs/.
+  Users install separately. See modules/02-provider-bridge/docs/.
 
 ------------------------------------------------------------------------
 Disclaimer (한국어 면책)
