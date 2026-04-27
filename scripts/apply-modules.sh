@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
-# apply-modules.sh — modules/*/dist 를 upstream/ 적절한 경로에 배치
+# apply-modules.sh — modules/*/dist 를 generated-app/ 적절한 경로에 배치
 # Stub. 각 모듈의 dist 매핑은 모듈이 자체 manifest로 선언 (modules/*/manifest.json)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+TARGET="$ROOT/generated-app"
 UPSTREAM="$ROOT/upstream"
 
-if [ ! -d "$UPSTREAM" ] || [ -z "$(ls -A "$UPSTREAM" 2>/dev/null | grep -v '^.gitkeep$')" ]; then
-  echo "upstream/ 가 비어있다. 먼저 'pnpm bootstrap' 실행."
-  exit 1
+if [ ! -d "$TARGET" ]; then
+  if [ ! -d "$UPSTREAM" ] || [ -z "$(ls -A "$UPSTREAM" 2>/dev/null | grep -v '^.gitkeep$' || true)" ]; then
+    echo "generated-app/ 와 upstream/ 가 비어있다. 먼저 'pnpm bootstrap' 또는 M0 upstream setup을 실행."
+    exit 1
+  fi
+  echo "generated-app/ 없음 — upstream/에서 임시 생성"
+  rm -rf "$TARGET"
+  rsync -a --delete --exclude='.git' "$UPSTREAM/" "$TARGET/"
 fi
 
 echo "[modules] 빌드"
@@ -26,6 +32,6 @@ for mod in "$ROOT"/modules/*/; do
 done
 
 echo "[overlays] static files"
-[ -d "$ROOT/overlays" ] && rsync -a "$ROOT/overlays/" "$UPSTREAM/"
+[ -d "$ROOT/overlays" ] && rsync -a "$ROOT/overlays/" "$TARGET/"
 
-echo "OK — modules 적용 완료"
+echo "OK — modules 적용 stub 완료 (manifest copy 구현 전까지 실제 dist 복사는 제한적)"

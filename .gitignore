@@ -6,5 +6,6 @@ build/
 .env*
 upstream/
 !upstream/.gitkeep
+generated-app/
 .cache/
 coverage/

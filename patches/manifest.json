@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "patchBudget": {
+    "warnAt": 20,
+    "freezeAt": 30
+  },
+  "patches": []
+}
