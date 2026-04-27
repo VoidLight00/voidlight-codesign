@@ -10,15 +10,15 @@
 
 ## 1. Vision
 
-> **"내가 이미 결제하고 있는 AI 구독으로, 한국어 UI 안에서, Claude Design 수준의 AI 디자인 작업을 한다."**
+> **"한국어 사용자가 Open CoDesign을 안전하게 이해하고, 본인이 선택한 AI 연결 방식으로 디자인 작업을 시연·학습·실험할 수 있게 한다."**
 
 Open CoDesign(MIT, Electron 기반)을 베이스로 다음 3가지를 추가한다:
 
-1. **VibeProxy(=CLIProxyAPI) 통합** — Claude Pro/Max·ChatGPT Plus·Gemini Advanced·Codex 구독을 추가 토큰비 0원으로 사용.
-2. **완전 한국어 UI** — 메뉴·설정·알림·문서 100% 한글화. 폰트도 Pretendard/Noto Sans KR 기본 적용.
-3. **신규 모델 24시간 반영** — GPT-5.5, Claude 4.7+, Gemini 3 등 출시 즉시 카탈로그 자동 업데이트.
+1. **Provider bridge** — VibeProxy(=CLIProxyAPI)는 고급/실험적 경로로 검증하고, official API key fallback을 동등한 P0 경로로 제공한다.
+2. **한국어 핵심 UX** — 메뉴·설정·알림·문서의 핵심 플로우를 우선 한국어화하고, v1.0 전까지 전체 UI coverage 95% 이상을 달성한다.
+3. **검증된 모델 카탈로그** — 신규 모델은 24시간 내 감지하되, schema·capability·사람 승인 게이트를 통과한 뒤 노출한다.
 
-이 모든 것을 **upstream 코드 수정 최소화 + 모든 기능 보존**의 제약 안에서 달성한다.
+이 모든 것을 **upstream 코드 수정 최소화 + 모든 기능 보존 + 사용자 계정/토큰 안전성**의 제약 안에서 달성한다.
 
 ---
 
@@ -31,17 +31,25 @@ Open CoDesign(MIT, Electron 기반)을 베이스로 다음 3가지를 추가한�
 | N3 | Electron → 다른 프레임워크 마이그레이션 | upstream 호환성 깨짐 |
 | N4 | 자체 백엔드/클라우드 | local-first 원칙 유지 |
 | N5 | 비-OAuth 구독 우회(Cursor, Lovable 등) | ToS 리스크, 가치 대비 비용 낮음 |
-| N6 | Apple 코드사이닝 즉시 도입 | $99/년 비용, v0.5 이후 검토 |
+| N6 | provider ToS 우회 보장 | VibeProxy는 실험적 호환 경로일 뿐, 공식 지원/약관 적합성을 보장하지 않음 |
+| N7 | 코드사이닝 없는 정식 v1.0 | 알파는 unsigned 가능하지만 v1.0은 배포 신뢰 정책 필요 |
 
 ---
 
 ## 3. Personas & Use Cases
 
-### Persona A — "한국어 디자인 강사" (=손상현)
+### Persona A1 — "한국어 디자인 강사: 구독 경로" (=손상현)
 - 이미 Claude Pro / ChatGPT Plus 결제 중
 - AI Beyond 멤버십 등에서 강의·시연
 - 한국어 UI가 필요 (학생 시연, 자료 캡처)
-- **Use case**: VibeProxy 1번 클릭 → Open CoDesign 실행 → 한국어 UI에서 Claude Sonnet으로 슬라이드 덱 생성
+- VibeProxy의 ToS/계정 리스크를 이해한 고급 사용자
+- **Use case**: VibeProxy 실행 → experimental 연결 확인 → 한국어 UI에서 Claude Sonnet으로 슬라이드 덱 생성
+
+### Persona A2 — "한국어 디자인 강사: API 키 경로"
+- 강의·시연 안정성을 위해 provider 공식 API key를 준비
+- 조직/학생 데이터 정책상 약관·감사 가능성이 중요
+- VibeProxy보다 표준 경로와 예측 가능한 오류 처리를 선호
+- **Use case**: API key 입력 → standard 연결 확인 → 한국어 UI에서 동일 데모 생성
 
 ### Persona B — "한국 일반 디자이너"
 - 영어 UI 부담, AI 도구 입문
@@ -62,18 +70,22 @@ Open CoDesign(MIT, Electron 기반)을 베이스로 다음 3가지를 추가한�
 | # | Module | Goal | Owner | Priority |
 |---|--------|------|-------|---------|
 | 01 | `i18n-ko` | 한국어 로케일 + 폰트 + 번역 자동화 | core | 🔴 P0 |
-| 02 | `vibeproxy-bridge` | VibeProxy 자동 감지/연결/문서화 | core | 🔴 P0 |
-| 03 | `model-bumper` | 신규 모델 24시간 반영 자동화 | infra | 🟡 P1 |
-| 04 | `branding-ko` | (선택) 한국어 빌드 브랜딩 | optional | 🟢 P2 |
+| 02 | `provider-bridge` | VibeProxy + official API fallback 연결/문서화 | core | 🔴 P0 |
+| 03 | `model-bumper` | 검증된 신규 모델 감지·PR·override | infra | 🟡 P1 |
+| 04 | `distribution-ko` | 브랜딩·앱 메타·배포 채널·라이선스 표기 | infra | 🟡 P1 |
 | 05 | `installer-ko` | brew tap + 한국어 설치 가이드 | infra | 🟡 P1 |
+| 06 | `release-ops` | upstream sync·patch governance·rollback | infra | 🔴 P0 |
+| 07 | `security-compliance` | ToS·token storage·local proxy·license audit | security | 🔴 P0 |
 
 ### 4.1 모듈 간 의존 관계
 ```
-i18n-ko        ← independent
-vibeproxy-bridge ← independent
-model-bumper   ← independent
-branding-ko    ← depends on i18n-ko (한국어 문구 사용)
-installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
+i18n-ko             ← independent
+provider-bridge     ← security-compliance 정책을 따름
+model-bumper        ← security-compliance schema/allowlist 정책을 따름
+distribution-ko     ← security-compliance + release-ops와 강결합
+installer-ko        ← depends on (i18n-ko, provider-bridge, distribution-ko)
+release-ops         ← patch/CI/release glue
+security-compliance ← 모든 외부 연결·배포·라이선스 게이트
 ```
 
 ### 4.2 모듈 단위 인수 기준 (요약)
@@ -84,10 +96,11 @@ installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
 - [ ] 한국어 전문 용어 사전(`ko-glossary.md`) 200개 이상
 - [ ] IME 한글 입력 회귀 테스트 통과
 
-#### M02 vibeproxy-bridge
+#### M02 provider-bridge
 - [ ] VibeProxy 실행 상태 → 앱이 자동 감지 → provider 자동 등록
-- [ ] Claude Pro 구독으로 슬라이드 덱 생성 E2E 통과
-- [ ] ChatGPT Plus·Gemini·Codex 모두 동일 흐름 동작
+- [ ] official API key fallback으로 동일 데모 E2E 통과
+- [ ] VibeProxy가 미실행/만료/충돌 상태일 때 한국어 오류와 대안 경로 표시
+- [ ] local proxy handshake와 port spoofing 위험 검증
 - [ ] 한국어 트러블슈팅 문서 완비
 
 #### M03 model-bumper
@@ -96,14 +109,26 @@ installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
 - [ ] 로컬 override 파일로 즉시 사용 가능 (PR 머지 전)
 - [ ] GPT-5.5 출시 시 24시간 내 사용 가능 검증
 
-#### M04 branding-ko
-- [ ] Settings에서 브랜드 토글(VoidLight/Open CoDesign)
+#### M04 distribution-ko
+- [ ] 앱명·bundle id·About·NOTICE·update channel 정책이 fork 혼동을 만들지 않음
+- [ ] signed/notarized build 또는 알파용 unsigned 정책이 명확히 분리됨
 - [ ] upstream 자산 미수정, overlay만 사용
 
 #### M05 installer-ko
-- [ ] `brew install --cask voidlight/tap/voidlight-codesign` 1줄 설치
-- [ ] xattr 격리 자동 해제
+- [ ] `brew install --cask voidlight/tap/voidlight-codesign` 1줄 설치 PoC
+- [ ] xattr 격리 해제는 알파용 안내로만 사용하고 v1.0 배포 신뢰 정책과 분리
 - [ ] 한국어 설치 가이드 (스크린샷 포함)
+
+#### M06 release-ops
+- [ ] upstream sync는 PR 생성까지만 수행하고 자동 머지하지 않음
+- [ ] patch manifest/series/metadata 검증
+- [ ] stable freeze와 rollback runbook 존재
+
+#### M07 security-compliance
+- [ ] provider ToS/privacy warning이 README·docs·첫 실행 UI에 반영
+- [ ] OAuth/API token 평문 저장 금지 정책 검증
+- [ ] local proxy origin/handshake/port spoofing 체크리스트 존재
+- [ ] dependency/font/license audit 통과
 
 ---
 
@@ -133,13 +158,14 @@ installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
 
 | # | Risk | Severity | Mitigation |
 |---|------|---------|-----------|
-| R1 | upstream의 빠른 릴리스(주 단위)로 patch 충돌 빈발 | 🔴 High | 주 1회 자동 rebase CI + 충돌 알림 |
-| R2 | i18n 인프라가 upstream에 없으면 도입 patch가 invasive | 🟠 Med | upstream PR 우선 시도, 거부 시 overlay 방식 |
-| R3 | VibeProxy 자체 업데이트로 wire format 변경 | 🟡 Low | 호환성 매트릭스 테스트, 버전 핀 |
-| R4 | 한국어 AI 번역 품질 일관성 부족 | 🟠 Med | 용어 사전 + 사람 QA 패스 + glossary 강제 |
-| R5 | ToS 리스크 (구독 우회) | 🟠 Med | "교육·개인용" 면책 명시, 상업 배포 자제 |
-| R6 | Apple Gatekeeper 강화로 unsigned 앱 실행 어려움 | 🟡 Low | xattr 자동화 + 향후 코드사이닝 |
-| R7 | 신규 모델 카탈로그 격차로 사용자 혼란 | 🟡 Low | model-bumper 자동화 + 로컬 override |
+| R1 | upstream 0.x 변화로 patch 충돌 빈발 | 🔴 High | release tag 추종 우선, sync PR만 생성, patch manifest 운영 |
+| R2 | i18n 인프라가 upstream에 없으면 도입 patch가 invasive | 🔴 High | upstream PR 우선, 단기 compile-time transform spike, DOM 치환은 시연용만 |
+| R3 | VibeProxy ToS/계정 정지/호환성 리스크 | 🔴 High | VibeProxy를 experimental로 표기, official API key fallback P0 제공 |
+| R4 | 코드사이닝/notarization 부재로 배포 신뢰 하락 | 🔴 High | M0에서 비용·키·채널 결정, v1.0 exit criteria로 격상 |
+| R5 | local proxy port spoofing 또는 token leakage | 🔴 High | handshake/origin/token storage 보안 체크리스트 |
+| R6 | 한국어 AI 번역 품질 일관성 부족 | 🟠 Med | 용어 사전 + 사람 QA + stale translation detection |
+| R7 | 신규 모델 카탈로그 오염/잘못된 모델 노출 | 🟠 Med | schema validation + allowlist + 사람 승인 + rollback |
+| R8 | 1인 운영 bus factor | 🟠 Med | release-ops runbook, patch budget, contributor-friendly docs |
 
 ---
 
@@ -149,23 +175,25 @@ installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
 
 | Milestone | Goal | ETA | Modules |
 |-----------|------|-----|---------|
-| **M0 — Recon** | Phase 0 정찰 완료, RECON.md 산출 | D+3 | (research only) |
-| **M1 — VibeProxy MVP** | Claude Pro 구독으로 동작 검증 | D+7 | 02 |
-| **M2 — 한글 알파** | 핵심 화면 한국어 적용 + parity test 가동 | D+17 | 01, parity |
-| **M3 — 한글 베타** | 전체 UI 한국어 + brew 설치 | D+27 | 01, 05 |
-| **M4 — 자동화 인프라** | model-bumper + upstream sync CI | D+33 | 03 |
-| **M5 — 1.0** | 안정화 + 한국어 발표/홍보 | D+42 | 04, all |
+| **M0 — Recon & Risk Audit** | 기술·거버넌스·보안·배포 가정 검증 | D+5 | 06, 07 |
+| **M1 — Provider MVP** | VibeProxy + official API fallback 검증 | D+12 | 02, 07 |
+| **M2 — Korean Alpha Core** | 핵심 화면 한국어 + IME/parity 최소 안전망 | D+24 | 01, parity |
+| **M3 — Distribution Preview** | 설치·첫 실행·배포 문서 알파 품질 | D+31 | 04, 05, 07 |
+| **M4 — Automation & Patch Governance** | model-bumper + upstream sync + patch manifest | D+37 | 03, 06 |
+| **M5 — v0.1-ko-alpha** | developer preview 릴리스 | D+42 | all |
 
-> 일정은 [`CRITIQUE.md`](./CRITIQUE.md) §Q6 결정 반영하여 35일 → 42일로 조정 (20% buffer).
+> D+42 목표는 v1.0 정식 릴리스가 아니라 `v0.1-ko-alpha`다. v1.0은 [`ROADMAP.md`](./ROADMAP.md)의 exit criteria를 충족할 때 별도 릴리스한다.
 
 ---
 
 ## 8. Maintenance Contract (지속성)
 
 ### 8.1 주간 루틴 (자동화)
-- 월요일 09:00: `sync-upstream.sh` 자동 실행 → rebase 시도
-- 충돌 발생 → Issue 자동 생성 + Slack/Telegram 알림
-- 충돌 없음 → main 자동 푸시
+- 매일 upstream fetch로 새 release/tag 감지
+- release/tag 또는 변화량 임계치 도달 시 `sync-upstream.sh` dry-run 실행
+- 충돌 발생 → Issue 자동 생성 + Telegram 알림 + stable channel freeze
+- 충돌 없음 → upstream-sync PR 생성
+- **자동 main push/자동 머지 금지**
 
 ### 8.2 모델 출시 대응
 - model-bumper가 매일 03:00 폴링
@@ -192,12 +220,13 @@ installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
 
 | Metric | Target (3개월) |
 |--------|-------------|
-| 한국어 UI coverage | ≥ 95% |
-| upstream rebase 성공률 | ≥ 90% (자동 통과) |
-| 신규 모델 반영 시간 | ≤ 24시간 |
-| brew 설치 성공률 | ≥ 95% |
-| VibeProxy 자동 감지 성공률 | ≥ 90% |
-| GitHub stars | ≥ 100 (한국어 유저층) |
+| 핵심 UI 한국어 coverage | ≥ 95% |
+| parity test golden path | 8개 중 8개 통과 |
+| provider 연결 성공률 | VibeProxy 또는 official API fallback 중 1개 이상 ≥ 95% |
+| 신규 모델 감지 시간 | ≤ 24시간 (자동 노출 아님) |
+| model catalog 검증 실패 rollback | ≤ 1시간 |
+| 설치 문서 기반 첫 실행 성공률 | ≥ 90% |
+| patch queue budget | 활성 patch ≤ 20개 |
 | 활성 issue 응답 시간 (P50) | ≤ 48시간 |
 
 ---
@@ -209,7 +238,7 @@ installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
 | Q1 | GitHub 저장소 이름: `voidlight-codesign` vs `open-codesign-ko` | `voidlight-codesign` | 사용자 |
 | Q2 | upstream에 한국어 i18n PR 시도 여부 | 시도 | 사용자 |
 | Q3 | 빌드 채널 분리 (한국어 전용 dmg) vs 통합 빌드 | 통합 + 로케일 스위처 | 사용자 |
-| Q4 | Apple 코드사이닝($99/년) 도입 시점 | v0.5 이후 | 사용자 |
+| Q4 | Apple 코드사이닝($99/년) 도입 시점 | M0에서 v1.0 gate로 결정 | 사용자 |
 | Q5 | model-bumper 알림 채널 (Slack/Telegram/Email) | Telegram | 사용자 |
 | Q6 | VibeProxy 자동 기동 권한(launchd) 부여 여부 | 사용자 옵트인 | 사용자 |
 
@@ -226,7 +255,7 @@ installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
 | D2 | **README/M02 docs 면책 문구** 의무 | ToS 리스크 명시 |
 | D3 | **M01/M03 내부 sub-package 분리** — extractor/translator/glossary/locale-ko/fonts (M01), poller/differ/pr-bot/notifier/override (M03) | SRP 준수 |
 | D4 | **parity test 시작 D+8** (기존 D+25 → 17일 앞당김) | 회귀 안전망 |
-| D5 | **35일 → 42일 일정** (20% buffer) | 현실성 |
+| D5 | **35일 v1.0 → 42일 v0.1-ko-alpha** 로 목표 재정의 | 현실성 |
 | D6 | **patches 태그 시스템** — `PR_safe` / `Fork_only` | upstream PR 안전 |
 | D7 | **catalog schema validation** (Zod) | model-bumper 신뢰성 |
 | D8 | **IME 회귀 게이트** — upstream 메이저 sync 시 차단 | 한국어 사용자 보호 |
@@ -236,15 +265,17 @@ installer-ko   ← depends on (i18n-ko, vibeproxy-bridge)
 | Q | 질문 | 후보 | 기본값 제안 |
 |---|------|-----|-----------|
 | Q-A | M02 + M05 통합 vs 유지 | 통합 / 유지 | **유지** (모듈 단독 배포 가능성) |
-| Q-B | branding-ko 토글 위치 | Settings UI / 빌드 환경변수 | Settings (사용자 제어) |
-| Q-C | 학생용 lite 가이드 별도 모듈(M06)? | 분리 / M01에 포함 | M01 docs/ 하위 |
+| Q-B | distribution-ko 토글 위치 | Settings UI / 빌드 환경변수 | Settings (사용자 제어) |
+| Q-C | 학생용 lite 가이드 별도 모듈(M08)?  | 분리 / M01에 포함 | M01 docs/ 하위 |
 | Q-D | NOTICE 한국어/영문 병기 | 분리 / 병기 | **병기** (이미 적용됨) |
 
 ### 11.3 우선순위 격상 (P0)
-critique 결과 다음 3가지를 P0로 격상:
+critique 결과 다음 5가지를 P0로 격상:
 - **회귀 안전망 (parity test)** — 기존 P1 → **P0**
 - **공급망 견고성 (model-bumper schema)** — 기존 P1 → **P0**
 - **법무·라이선스 단정 (NOTICE/ToS 명시)** — 기존 P2 → **P0**
+- **official API key fallback** — VibeProxy 단일 의존 제거
+- **release/security 운영 게이트** — M06/M07로 분리
 
 ---
 
@@ -254,6 +285,7 @@ critique 결과 다음 3가지를 P0로 격상:
 - VibeProxy guide: `~/projects/voidlight-vibeproxy-guide`
 - CLIProxyAPI: 내장 (`/Applications/VibeProxy.app/Contents/Resources/cli-proxy-api-plus`)
 - Open CoDesign config: `~/.config/open-codesign/config.toml`
+- Official API key fallback: upstream provider 설정 방식 확인 필요 (M0)
 - Korean glossary baseline: TBD (M2 시점)
 
 ---

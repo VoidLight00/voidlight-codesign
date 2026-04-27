@@ -21,7 +21,7 @@
 **문제**: VibeProxy 가이드 README에 이미 *"This guide documents a technique that may violate the Terms of Service of AI model providers"* 명시되어 있음. 우리 fork가 VibeProxy를 권장하면서 면책 문구를 빠뜨리면 사용자 불만 + 잠재 분쟁 소지.
 
 **결정**:
-- M02 vibeproxy-bridge docs/ 모든 페이지 상단에 한국어 면책 문구 의무
+- M02 provider-bridge docs/ 모든 페이지 상단에 한국어 면책 문구 의무
 - README.md 에도 "VibeProxy는 제공자 ToS를 위반할 수 있음, 교육·개인 용도 한정" 단락 추가
 
 ### C1.3 — 데이터 마이그레이션 시나리오 미정의 🟡
@@ -41,7 +41,7 @@
 
 ## Q2. 모듈 분해 적정성
 
-### C2.1 — M02 vibeproxy-bridge와 M05 installer-ko의 중복 🟠
+### C2.1 — M02 provider-bridge와 M05 installer-ko의 중복 🟠
 **문제**: M02는 "VibeProxy 안내 문서 + 자동 감지 검증" 90%가 docs. M05는 "한국어 설치 가이드 + 첫 실행 온보딩". 둘 다 **"사용자가 첫 사용까지의 마찰 제거"** 라는 동일 책임. 모듈 경계가 인공적.
 
 **결정안 (B 채택)**:
@@ -196,8 +196,9 @@ modules/01-i18n-ko/
 ### C6.3 — buffer 0% 🔴
 **문제**: 모든 마일스톤이 deadline-driven, slack 없음. 하나만 밀려도 전체 도미노.
 
-**결정 (강함)**: **20% buffer** 추가
-- 35일 → **42일** 으로 조정
+**결정 (강함)**: **v1.0 날짜 약속 제거**
+- 35일 v1.0 → **42일 v0.1-ko-alpha** 로 조정
+- 정식 v1.0은 코드사이닝·fallback·parity·security gate 충족 시 릴리스
 - 각 마일스톤 끝에 1~2일 polish 시간 확보
 
 ### 일정 재구성 (제안)
@@ -208,7 +209,7 @@ modules/01-i18n-ko/
 | M2 한글 알파 | D+12 | **D+17** |
 | M3 한글 베타 + brew | D+20 | **D+27** |
 | M4 자동화 | D+25 | **D+33** |
-| M5 v1.0 | D+35 | **D+42** |
+| M5 v0.1-ko-alpha | D+35 v1.0 | **D+42 alpha** |
 
 ---
 
@@ -223,7 +224,7 @@ modules/01-i18n-ko/
 - 향후 Anthropic이 공식 OAuth 공개 시 즉시 마이그레이션
 
 ### C7.2 — fork branding 후 upstream 혼동 🟡
-**문제**: M04 branding-ko 가 적용된 빌드를 본 사용자가 "이게 Anthropic 공식인가? Open CoDesign인가? VoidLight 거인가?" 혼동.
+**문제**: M04 distribution-ko 가 적용된 빌드를 본 사용자가 "이게 Anthropic 공식인가? Open CoDesign인가? VoidLight 거인가?" 혼동.
 
 **결정**:
 - About 화면에 3-tier 표기: "VoidLight CoDesign | Open CoDesign fork | based on Anthropic Claude" 같은 계층
@@ -301,7 +302,7 @@ modules/01-i18n-ko/
 2. **README/docs 면책 문구** — VibeProxy ToS 위험 경고
 3. **모듈 내 sub-package 도입** — M01, M03 만 적용 (M01: extractor/translator/glossary/locale-ko/fonts. M03: poller/differ/pr-bot/notifier/override)
 4. **parity test 시작 시점 D+8로 앞당김** — ROADMAP 갱신
-5. **35일 → 42일로 조정** — 20% buffer
+5. **35일 v1.0 → 42일 v0.1-ko-alpha로 조정** — 정식 1.0은 exit criteria 기반
 6. **patches 태그 시스템** — `PR_safe` / `Fork_only` 구분 도입
 7. **카탈로그 schema validation** — model-bumper에 zod schema 의무
 8. **submodule SHA 명시 + 변경 알림** — sync workflow 보강
@@ -310,8 +311,8 @@ modules/01-i18n-ko/
 ### 미정 (사용자 확정 필요)
 
 - **Q-A**: M02/M05 합치기 vs 유지? → 본 critique에서 "유지" 권장했으나 사용자 의견 수렴
-- **Q-B**: branding-ko 토글 위치? — Settings 또는 빌드 환경변수
-- **Q-C**: 학생용 lite 가이드 별도 모듈로 분리 여부? — M06 후보
+- **Q-B**: distribution-ko 토글 위치? — Settings 또는 빌드 환경변수
+- **Q-C**: 학생용 lite 가이드 별도 모듈로 분리 여부? — M08 후보, v1.0 이후 검토
 - **Q-D**: NOTICE 파일 한국어/영문 병기 여부
 
 ---
@@ -324,7 +325,7 @@ modules/01-i18n-ko/
 2. **폴링 인프라의 supply-chain 견고성** — model-bumper 의 자동 PR이 카탈로그를 오염시키지 않도록 schema + 사람 게이트.
 3. **법무·라이선스 단정** — VibeProxy 면책, MIT NOTICE, fork 표기. 1년 후 분쟁 0건을 위한 사전 작업.
 
-위 3가지를 우선순위 P0로 격상하고 시작하면, 35일이 42일이 되더라도 **해체 가능한 / 인계 가능한 / 분쟁 가능성 낮은** 프로젝트가 됩니다.
+위 항목들을 우선순위 P0로 격상하고 42일 목표를 알파로 낮추면 **해체 가능한 / 인계 가능한 / 분쟁 가능성 낮은** 프로젝트가 됩니다.
 
 ---
 
