@@ -5,7 +5,7 @@
 
 **현재 상태**: 기획 단계 (Day 0 · 2026-04-27)
 
-**42일 목표**: 정식 v1.0이 아니라 `v0.1-ko-alpha` developer preview. v1.0은 코드사이닝·보안·fallback·parity exit criteria 충족 후 별도 릴리스한다.
+**42일 목표**: 정식 v1.0이 아니라 `v0.1.4-ko-alpha` developer preview. v1.0은 코드사이닝·보안·fallback·parity exit criteria 충족 후 별도 릴리스한다.
 
 ---
 
@@ -16,7 +16,7 @@
 brew install --cask voidlight/tap/voidlight-codesign
 
 # 또는 직접 빌드
-git clone --recurse-submodules https://github.com/voidlight/voidlight-codesign.git
+git clone --recurse-submodules https://github.com/VoidLight00/voidlight-codesign.git
 cd voidlight-codesign
 pnpm bootstrap
 pnpm build
@@ -87,4 +87,4 @@ MIT (upstream 라이선스 승계). 상세는 `LICENSE` 및 [`NOTICE`](./NOTICE)
 
 ---
 
-**Maintainer**: [@voidlight](https://github.com/voidlight) · 손상현 / VOIDLIGHT
+**Maintainer**: [@VoidLight00](https://github.com/VoidLight00) · 손상현 / VOIDLIGHT

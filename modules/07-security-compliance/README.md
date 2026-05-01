@@ -11,7 +11,7 @@ ToS, privacy, token storage, local proxy 보안, dependency/license audit를 rel
 - telemetry/crash/log privacy audit
 - dependency/font/license notice audit
 
-## v0.1-ko-alpha 기준
+## v0.1.4-ko-alpha 기준
 
 - VibeProxy는 experimental 경로로 표기
 - 상업/대규모 사용 전 provider ToS 확인 안내

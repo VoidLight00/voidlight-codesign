@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "app": {
+    "id": "voidlight-codesign",
+    "displayName": "VoidLight CoDesign",
+    "displayNameKo": "VoidLight 코디자인",
+    "bundleId": "ai.voidlight.codesign",
+    "basedOn": {
+      "name": "Open CoDesign",
+      "copyright": "OpenCoworkAI and contributors",
+      "license": "MIT",
+      "repository": "https://github.com/OpenCoworkAI/open-codesign"
+    }
+  },
+  "channels": [
+    {
+      "name": "alpha-ko",
+      "stability": "developer-preview",
+      "signed": false,
+      "notarized": false,
+      "autoUpdate": false,
+      "audience": "invited Korean alpha testers",
+      "messageKo": "개발자 프리뷰입니다. 서명/공증이 완료되지 않았을 수 있으며 신뢰할 수 있는 테스트 환경에서만 실행하세요."
+    },
+    {
+      "name": "beta-ko",
+      "stability": "beta",
+      "signed": null,
+      "notarized": null,
+      "autoUpdate": false,
+      "audience": "Korean beta testers after release gate review",
+      "messageKo": "베타 채널은 릴리스 게이트 통과 후 제한 배포합니다."
+    },
+    {
+      "name": "stable-ko",
+      "stability": "stable",
+      "signed": true,
+      "notarized": true,
+      "autoUpdate": null,
+      "audience": "general Korean users after v1.0 exit criteria",
+      "messageKo": "stable-ko는 v1.0 exit criteria 충족 후에만 배포합니다."
+    }
+  ],
+  "providerPolicy": {
+    "officialApiKeyFallback": "first-class",
+    "vibeProxy": "experimental",
+    "vibeProxyWarningKo": "VibeProxy/CLIProxyAPI는 provider ToS 및 계정 정책 리스크가 있을 수 있으며 사용자가 별도로 설치하는 외부 도구입니다."
+  },
+  "releaseGates": [
+    "patch verification",
+    "security verification",
+    "license and NOTICE review",
+    "provider fallback path review",
+    "signing and notarization decision"
+  ]
+}

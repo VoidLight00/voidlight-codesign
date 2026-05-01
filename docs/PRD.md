@@ -180,9 +180,9 @@ security-compliance ← 모든 외부 연결·배포·라이선스 게이트
 | **M2 — Korean Alpha Core** | 핵심 화면 한국어 + IME/parity 최소 안전망 | D+24 | 01, parity |
 | **M3 — Distribution Preview** | 설치·첫 실행·배포 문서 알파 품질 | D+31 | 04, 05, 07 |
 | **M4 — Automation & Patch Governance** | model-bumper + upstream sync + patch manifest | D+37 | 03, 06 |
-| **M5 — v0.1-ko-alpha** | developer preview 릴리스 | D+42 | all |
+| **M5 — v0.1.4-ko-alpha** | developer preview 릴리스 | D+42 | all |
 
-> D+42 목표는 v1.0 정식 릴리스가 아니라 `v0.1-ko-alpha`다. v1.0은 [`ROADMAP.md`](./ROADMAP.md)의 exit criteria를 충족할 때 별도 릴리스한다.
+> D+42 목표는 v1.0 정식 릴리스가 아니라 `v0.1.4-ko-alpha`다. v1.0은 [`ROADMAP.md`](./ROADMAP.md)의 exit criteria를 충족할 때 별도 릴리스한다.
 
 ---
 
@@ -255,7 +255,7 @@ security-compliance ← 모든 외부 연결·배포·라이선스 게이트
 | D2 | **README/M02 docs 면책 문구** 의무 | ToS 리스크 명시 |
 | D3 | **M01/M03 내부 sub-package 분리** — extractor/translator/glossary/locale-ko/fonts (M01), poller/differ/pr-bot/notifier/override (M03) | SRP 준수 |
 | D4 | **parity test 시작 D+8** (기존 D+25 → 17일 앞당김) | 회귀 안전망 |
-| D5 | **35일 v1.0 → 42일 v0.1-ko-alpha** 로 목표 재정의 | 현실성 |
+| D5 | **35일 v1.0 → 42일 v0.1.4-ko-alpha** 로 목표 재정의 | 현실성 |
 | D6 | **patches 태그 시스템** — `PR_safe` / `Fork_only` | upstream PR 안전 |
 | D7 | **catalog schema validation** (Zod) | model-bumper 신뢰성 |
 | D8 | **IME 회귀 게이트** — upstream 메이저 sync 시 차단 | 한국어 사용자 보호 |

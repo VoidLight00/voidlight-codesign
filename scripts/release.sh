@@ -8,7 +8,7 @@ cd "$ROOT"
 VERSION="${1:-}"
 if [ -z "$VERSION" ]; then
   echo "usage: pnpm release <version>"
-  echo "example: pnpm release v0.1-ko-alpha"
+  echo "example: pnpm release v0.1.4-ko-alpha"
   exit 1
 fi
 

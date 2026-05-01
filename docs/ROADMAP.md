@@ -1,7 +1,7 @@
 # Roadmap — VoidLight CoDesign
 
 > **현재**: Day 0 (2026-04-27 기획 완료)
-> **42일 목표**: `v0.1-ko-alpha` / developer preview
+> **42일 목표**: `v0.1.4-ko-alpha` / developer preview
 > **v1.0 원칙**: 날짜가 아니라 exit criteria 충족 시 릴리스
 
 ---
@@ -125,7 +125,7 @@
 
 ---
 
-### M5 — v0.1-ko-alpha Hardening (D+38 → D+42)
+### M5 — v0.1.4-ko-alpha Hardening (D+38 → D+42)
 
 **Goal**: 알파 릴리스를 고정하고 v1.0 backlog를 명확히 분리한다.
 
@@ -136,8 +136,8 @@ M06/M07은 이 시점에 문서·체크리스트 골격만 고정하고, alpha �
 | D+38 | M06 release-ops/M07 security-compliance 문서와 체크리스트 정리 | module docs |
 | D+39 | alpha regression pass | green checks |
 | D+40 | known issues와 ToS/privacy warning 정리 | release notes |
-| D+41 | `v0.1-ko-alpha` release candidate | GitHub Release draft |
-| D+42 | `v0.1-ko-alpha` 릴리스 | developer preview |
+| D+41 | `v0.1.4-ko-alpha` release candidate | GitHub Release draft |
+| D+42 | `v0.1.4-ko-alpha` 릴리스 | developer preview |
 
 **Exit criteria**: 알파 사용자가 위험·제약·설치·연결 방식을 이해하고 핵심 플로우를 재현할 수 있다.
 
@@ -193,7 +193,7 @@ M0 Recon/Risk ───────┬──────────────
               M4 Automation/Patch Governance
                             │
                             ▼
-                  M5 v0.1-ko-alpha
+                  M5 v0.1.4-ko-alpha
                             │
                             ▼
                     v1.0 exit criteria
@@ -218,5 +218,5 @@ M0 Recon/Risk ───────┬──────────────
 
 - 일일 진행: PR/Issue 또는 `/pcs` 사용
 - 주간 회고: `ROADMAP.md` 업데이트
-- 알파 완료: `v0.1-ko-alpha` 태그
+- 알파 완료: `v0.1.4-ko-alpha` 태그
 - v1.0 진행: exit criteria 체크리스트 기준으로 별도 milestone 생성

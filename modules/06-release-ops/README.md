@@ -9,7 +9,7 @@ upstream sync, patch queue, release freeze, rollback runbook을 소유한다.
 - stable channel freeze와 rollback 절차 문서화
 - patch budget 관리
 
-## v0.1-ko-alpha 기준
+## v0.1.4-ko-alpha 기준
 
 - 자동 main push 금지
 - 자동 merge 금지

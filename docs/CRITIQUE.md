@@ -197,7 +197,7 @@ modules/01-i18n-ko/
 **문제**: 모든 마일스톤이 deadline-driven, slack 없음. 하나만 밀려도 전체 도미노.
 
 **결정 (강함)**: **v1.0 날짜 약속 제거**
-- 35일 v1.0 → **42일 v0.1-ko-alpha** 로 조정
+- 35일 v1.0 → **42일 v0.1.4-ko-alpha** 로 조정
 - 정식 v1.0은 코드사이닝·fallback·parity·security gate 충족 시 릴리스
 - 각 마일스톤 끝에 1~2일 polish 시간 확보
 
@@ -209,7 +209,7 @@ modules/01-i18n-ko/
 | M2 한글 알파 | D+12 | **D+17** |
 | M3 한글 베타 + brew | D+20 | **D+27** |
 | M4 자동화 | D+25 | **D+33** |
-| M5 v0.1-ko-alpha | D+35 v1.0 | **D+42 alpha** |
+| M5 v0.1.4-ko-alpha | D+35 v1.0 | **D+42 alpha** |
 
 ---
 
@@ -302,7 +302,7 @@ modules/01-i18n-ko/
 2. **README/docs 면책 문구** — VibeProxy ToS 위험 경고
 3. **모듈 내 sub-package 도입** — M01, M03 만 적용 (M01: extractor/translator/glossary/locale-ko/fonts. M03: poller/differ/pr-bot/notifier/override)
 4. **parity test 시작 시점 D+8로 앞당김** — ROADMAP 갱신
-5. **35일 v1.0 → 42일 v0.1-ko-alpha로 조정** — 정식 1.0은 exit criteria 기반
+5. **35일 v1.0 → 42일 v0.1.4-ko-alpha로 조정** — 정식 1.0은 exit criteria 기반
 6. **patches 태그 시스템** — `PR_safe` / `Fork_only` 구분 도입
 7. **카탈로그 schema validation** — model-bumper에 zod schema 의무
 8. **submodule SHA 명시 + 변경 알림** — sync workflow 보강
